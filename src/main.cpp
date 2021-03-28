@@ -1,6 +1,6 @@
 #include <iostream>
 #include "BazaTestu.hh"
-
+#include "Statystyki.hh"
 using namespace std;
 
 
@@ -30,15 +30,42 @@ int main(int argc, char **argv)
   cout << endl;
   cout << " Start testu arytmetyki zespolonej: " << argv[1] << endl;
   cout << endl;
-
+LZespolona odpowiedz;
   WyrazenieZesp   WyrZ_PytanieTestowe;
-  
+  Statystyki stat;
+  inicjuj(stat);
   while (PobierzNastpnePytanie(&BazaT,&WyrZ_PytanieTestowe)) {
-    cout << " Czesc rzeczywista pierwszego argumentu: ";
-    cout << WyrZ_PytanieTestowe.Arg1.re << endl;
+    cout << " :? Podaj wynik operacji:  "<<WyrZ_PytanieTestowe<<endl;
+    for(int i=0; i<3; i++)
+    {
+      cout<<"woja odpowiedz:"<<endl;
+      cin>>odpowiedz;
+      if(cin.fail())
+      {
+        cout<<"Blad zapisu liczby zespolonej. Sprobuj jeszcze raz."<<endl;
+        cin.clear();
+        cin.ignore(1024,'\n');
+      }
+      else
+      {
+        break;
+      }
+
+    }
+    if(odpowiedz==Oblicz(WyrZ_PytanieTestowe))
+    {
+      cout<<":) Odpowiedz poprawna"<<endl;
+      dodaj_pop(stat);
+    }
+    else
+    {
+      cout<<":( Blad. Prawidlowym wynikiem jest: "<< Oblicz(WyrZ_PytanieTestowe) <<endl;
+      dodaj_ble(stat);
+    }
+       dodaj_wsz(stat);
   }
 
-  
+  Wysiwetl(stat);
   cout << endl;
   cout << " Koniec testu" << endl;
   cout << endl;
